@@ -1,4 +1,4 @@
-description "spotify"
+description "spotifypro"
 
 start on (filesystem)
 stop on runlevel [016]
@@ -8,4 +8,4 @@ setuid nobody
 setgid nogroup
 chdir {{ repository_path }}
 
-exec gunicorn spotify:app --bind unix:/tmp/spotify.sock
+exec gunicorn spotify:app --bind unix:/tmp/spotifypro.sock
