@@ -1,0 +1,44 @@
+- name: SpotifyPro_FlaskPi
+  hosts: all
+  become: true
+  become_method: sudo
+  vars:
+      repository_url: https://github.com/Harin329/SpotifyPro.git
+      repository_path: /home/Desktop/SpotifyPro
+
+  tasks:
+    - name: Install packages
+      apt: update_cache=yes name={{ item }} state=present
+      with_items:
+        - git
+        - python-pip
+        - nginx
+
+    - name: Clone repository
+      git: repo='{{ repository_url }}' dest='{{ repository_path }}'
+
+    - name: Install requirements
+      pip: requirements='{{ repository_path }}/requirements.txt'
+
+    - name: Copy Upstart configuration
+      template: src=spotifypro.upstart.j2 dest=/etc/init/spotifypro.conf
+
+    - name: Make sure our server is running
+      service: name=spotifypro state=started
+
+    - name: Copy Nginx site
+      template: src=spotifypro.nginx.j2 dest=/etc/nginx/sites-enabled/spotifypro
+      notify:
+        - restart nginx
+
+    - name: Remove any default sites
+      file: path=/etc/nginx/sites-enabled/default state=absent
+      notify:
+        - restart nginx
+
+    - name: Make sure nginx is running
+      service: name=nginx state=started
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
