@@ -23,10 +23,10 @@
       pip: requirements='{{ repository_path }}/requirements.txt'
 
     - name: Copy Upstart configuration
-      template: src=spotifypro.upstart.j2 dest=/etc/init/spotifypro.conf
+      template: src=spotify.upstart.j2 dest=/etc/init/spotify.conf
 
     - name: Make sure our server is running
-      service: name=spotifypro state=started
+      service: name=spotify state=started
 
     - name: Copy Nginx site
       template: src=spotifypro.nginx.j2 dest=/etc/nginx/sites-enabled/spotifypro
