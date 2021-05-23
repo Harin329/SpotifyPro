@@ -8,4 +8,4 @@ setuid nobody
 setgid nogroup
 chdir {{ repository_path }}
 
-exec gunicorn app:app --bind unix:/tmp/spotifypro.sock --workers 3
+exec gunicorn spotify:app --bind unix:/tmp/spotifypro.sock --workers 3
