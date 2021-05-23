@@ -4,7 +4,7 @@
   become_method: sudo
   vars:
       repository_url: https://github.com/Harin329/SpotifyPro.git
-      repository_path: /home/Desktop/SpotifyPro
+      repository_path: /home/pi/Desktop/SpotifyPro
 
   tasks:
     - name: Install packages
@@ -13,6 +13,7 @@
           - git
           - python-pip
           - nginx
+          - gunicorn3
         update_cache: yes
         state: present
 
