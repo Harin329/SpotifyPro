@@ -4,9 +4,8 @@ Requires=spotifypro.socket
 After=network.target
 
 [Service]
-PIDFile=/run/gunicorn/pid
 WorkingDirectory={{ repository_path }}
-ExecStart=/usr/bin/gunicorn3 -b 0.0.0.0:8000 --pid /run/gunicorn/pid spotify:app
+ExecStart=gunicorn3 -b 127.0.0.1:8000 spotify:app
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 PrivateTmp=true
