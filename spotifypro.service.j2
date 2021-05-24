@@ -5,7 +5,6 @@ After=network.target
 
 [Service]
 Type=notify
-RuntimeDirectory=/home/pi/Desktop/SpotifyPro/env/bin/gunicorn
 WorkingDirectory={{ repository_path }}
 ExecStart=/home/pi/Desktop/SpotifyPro/env/bin/gunicorn -b unix:/run/spotifypro.sock spotify:app
 ExecReload=/bin/kill -s HUP $MAINPID
