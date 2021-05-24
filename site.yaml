@@ -32,12 +32,7 @@
       service: name=spotifypro state=started
 
     - name: Copy Nginx site
-      template: src=spotifypro.nginx.j2 dest=/etc/nginx/sites-enabled/spotifypro
-      notify:
-        - restart nginx
-
-    - name: Remove any default sites
-      file: path=/etc/nginx/sites-enabled/default state=absent
+      template: src=spotifypro.nginx.j2 dest=/etc/nginx/nginx.conf
       notify:
         - restart nginx
 
