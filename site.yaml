@@ -21,8 +21,8 @@
 
     - name: Create Virtual Env
       pip:
-        requirements: {{ repository_path }}/requirements.txt
-        virtualenv: {{ repository_path }}/env
+        requirements: '{{ repository_path }}/requirements.txt'
+        virtualenv: '{{ repository_path }}/env'
         virtualenv_command: /usr/bin/python3 -m venv
 
     - name: Copy Systemd service configuration
