@@ -7,7 +7,7 @@ http {
         listen          80;
         server_name     0.0.0.0;
         location / {
-            proxy_pass http://unix:/run/spotifypro/spotifypro.sock;
+            proxy_pass http://unix:/run/spotifypro.sock;
         }
     }
 }
