@@ -4,7 +4,7 @@ events {}
 
 http {
     server {
-        listen          8000;
+        listen          80;
         server_name     127.0.0.1;
         location / {
             proxy_pass http://unix:/run/gunicorn/socket;
