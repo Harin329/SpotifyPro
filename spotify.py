@@ -11,5 +11,5 @@ def healthcheck():
     return jsonify(status='success')
 
 @app.route("/api/moveSong")
-def welcome():
+def moveSong():
     return 'This song will be properly classified!'
