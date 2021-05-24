@@ -13,7 +13,6 @@
           - git
           - python-pip
           - nginx
-          - gunicorn3
         update_cache: yes
         state: present
 
@@ -23,25 +22,7 @@
     - name: Install requirements
       pip: requirements='{{ repository_path }}/requirements.txt'
 
-    - name: Copy Upstart configuration
-      template: src=spotifypro.upstart.j2 dest=/etc/init/spotifypro.conf
-
-    - name: Make sure our server is running
-      service: name=spotifypro state=started
-
-    - name: Copy Nginx site
-      template: src=spotifypro.nginx.j2 dest=/etc/nginx/sites-enabled/spotifypro
-      notify:
-        - restart nginx
-
-    - name: Remove any default sites
-      file: path=/etc/nginx/sites-enabled/default state=absent
-      notify:
-        - restart nginx
-
-    - name: Make sure nginx is running
-      service: name=nginx state=started
-
-  handlers:
-    - name: restart nginx
-      service: name=nginx state=restarted
+    - name: Start Server
+      community.general.gunicorn:
+        app: 'spotify'
+        chdir: '{{ repository_path }}'
