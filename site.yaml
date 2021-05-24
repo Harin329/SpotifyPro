@@ -27,9 +27,13 @@
 
     - name: Copy Systemd service configuration
       template: src=spotifypro.service.j2 dest=/etc/systemd/system/spotifypro.service
+      notify:
+        - restart systemd
     
     - name: Copy Systemd socket configuration
       template: src=spotifypro.socket.j2 dest=/etc/systemd/system/spotifypro.socket
+      notify:
+        - restart systemd
 
     - name: Make sure our server is running
       systemd: name=spotifypro daemon_reload=true state=started
@@ -45,3 +49,6 @@
   handlers:
     - name: restart nginx
       service: name=nginx state=restarted
+
+    - name: restart systemd
+      service: name=spotifypro daemon_reload=true state=restarted
