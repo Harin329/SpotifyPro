@@ -5,9 +5,9 @@ After=network.target
 
 [Service]
 Type=notify
-RuntimeDirectory=gunicorn3
+RuntimeDirectory=/home/pi/Desktop/SpotifyPro/env/bin/gunicorn
 WorkingDirectory={{ repository_path }}
-ExecStart=/usr/bin/gunicorn3 -b 127.0.0.1:8000 spotify:app
+ExecStart=/home/pi/Desktop/SpotifyPro/env/bin/gunicorn -b 127.0.0.1:8000 spotify:app
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 KillMode=mixed
