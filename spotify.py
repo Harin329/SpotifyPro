@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def welcome():
-    return 'Welcome, Harin Wu!'
+    return 'Welcome to SpotifyPro, Harin Wu!'
 
 @app.route("/api/healthcheck")
 def healthcheck():
