@@ -1,0 +1,15 @@
+[Unit]
+Description=Spotify Service
+Requires=spotifypro.socket
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/pid
+WorkingDirectory={{ repository_path }}
+ExecStart=/usr/bin/gunicorn --pid /run/gunicorn/pid spotify:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
