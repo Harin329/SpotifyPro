@@ -60,7 +60,9 @@ def makeGetRequest(session, url, params={}):
 		return None
 
 def makePostRequest(session, url, data):
-
+	if (session == {}):
+		return 'Session Error'
+		
 	headers = {"Authorization": "Bearer {}".format(session['token']), 'Accept': 'application/json', 'Content-Type': 'application/json'}
 	response = requests.post(url, headers=headers, data=data)
 

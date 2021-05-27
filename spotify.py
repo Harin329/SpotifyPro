@@ -15,15 +15,15 @@ app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
 session = {}
 
-@app.route("/", methods = ['GET'])
+@app.route("/")
 def welcome():
     return 'Welcome to SpotifyPro, Harin & Anna!'
 
-@app.route("/healthcheck", methods = ['GET'])
+@app.route("/healthcheck")
 def healthcheck():
-    return jsonify(status='success1')
+    return jsonify(status='success')
 
-@app.route('/authorize', methods = ['GET'])
+@app.route('/authorize')
 def authorize():
     authorize_url = 'https://accounts.spotify.com/en/authorize?'
     parameters = 'response_type=code&client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&scope=' + scopes
@@ -52,10 +52,9 @@ def callback():
 
 @app.route("/api/moveSong", methods = ['GET'])
 def moveSong():
-    print(session)
     url = "https://api.spotify.com/v1/me/player/next"
-    headers = {}
-    response = makePostRequest(session, url, headers)
+    data = {}
+    response = makePostRequest(session, url, data)
 
     return str(response)
 
