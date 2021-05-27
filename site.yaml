@@ -25,6 +25,9 @@
         virtualenv: '{{ repository_path }}/env'
         virtualenv_command: /usr/bin/python3 -m venv
 
+    - name: Copy .env configuration
+      template: src=.env dest='{{ repository_path }}/.env'
+
     - name: Copy Systemd service configuration
       template: src=spotifypro.service.j2 dest=/etc/systemd/system/spotifypro.service
       notify:
