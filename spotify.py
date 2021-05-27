@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, make_response, redirect, session
+from flask import Flask, jsonify, request, make_response, redirect
 from dotenv import load_dotenv
 from functions import getToken, getUserInformation, makePostRequest
 import time
@@ -13,16 +13,17 @@ scopes = os.environ['SCOPES']
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
+session = {}
 
-@app.route("/")
+@app.route("/", methods = ['GET'])
 def welcome():
     return 'Welcome to SpotifyPro, Harin & Anna!'
 
-@app.route("/healthcheck")
+@app.route("/healthcheck", methods = ['GET'])
 def healthcheck():
-    return jsonify(status='success')
+    return jsonify(status='success1')
 
-@app.route('/authorize')
+@app.route('/authorize', methods = ['GET'])
 def authorize():
     authorize_url = 'https://accounts.spotify.com/en/authorize?'
     parameters = 'response_type=code&client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&scope=' + scopes
@@ -31,6 +32,7 @@ def authorize():
 
 @app.route('/callback')
 def callback():
+    global session
     if request.args.get('error'):
 	    return "Spotify error"
     else:
@@ -48,8 +50,9 @@ def callback():
 
     return "Auth Success"
 
-@app.route("/api/moveSong")
+@app.route("/api/moveSong", methods = ['GET'])
 def moveSong():
+    print(session)
     url = "https://api.spotify.com/v1/me/player/next"
     headers = {}
     response = makePostRequest(session, url, headers)
