@@ -21,7 +21,7 @@ def welcome():
 
 @app.route("/healthcheck")
 def healthcheck():
-    return jsonify(status='success')
+    return jsonify(status='success1')
 
 @app.route('/authorize')
 def authorize():
@@ -52,9 +52,8 @@ def callback():
 
 @app.route("/api/moveSong", methods = ['GET'])
 def moveSong():
+    global session
     url = "https://api.spotify.com/v1/me/player/next"
     data = {}
-    response = makePostRequest(session, url, data)
-
-    return str(response)
+    return makePostRequest(session, url, data)
 
