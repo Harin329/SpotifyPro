@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, make_response, redirect
 from dotenv import load_dotenv
-from functions import getToken, getUserInformation, makePostRequest
+from functions import getToken, getUserInformation, skipSong
 import time
 import os
 
@@ -21,7 +21,7 @@ def welcome():
 
 @app.route("/healthcheck")
 def healthcheck():
-    return jsonify(status='success')
+    return jsonify(status='successful')
 
 @app.route('/authorize')
 def authorize():
@@ -53,8 +53,6 @@ def callback():
 @app.route("/api/moveSong", methods = ['GET'])
 def moveSong():
     global session
-    url = "https://api.spotify.com/v1/me/player/next"
-    data = {}
-    response = makePostRequest(session, url, data)
+    skipSong(session)
 
-    return str(response);
+    return "Song Moved!"
