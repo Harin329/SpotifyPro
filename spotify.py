@@ -8,7 +8,7 @@ load_dotenv()
 
 client_id = os.environ['CLIENT_ID']
 client_secret = os.environ['CLIENT_SECRET']
-redirect_uri = os.environ['REDIRECT_URI']
+redirect_uri = os.environ['REDIRECT_URI_DEV']
 scopes = os.environ['SCOPES']
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def welcome():
 
 @app.route("/healthcheck")
 def healthcheck():
-    return jsonify(status='success1')
+    return jsonify(status='success')
 
 @app.route('/authorize')
 def authorize():
@@ -55,5 +55,6 @@ def moveSong():
     global session
     url = "https://api.spotify.com/v1/me/player/next"
     data = {}
-    return makePostRequest(session, url, data)
+    response = makePostRequest(session, url, data)
 
+    return str(response);

@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 authorization = os.environ['AUTHORIZATION']
-redirect_uri = os.environ['REDIRECT_URI']
+redirect_uri = os.environ['REDIRECT_URI_DEV']
 
 token_url = 'https://accounts.spotify.com/api/token'
 headers = {'Authorization': authorization, 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
@@ -60,9 +60,6 @@ def makeGetRequest(session, url, params={}):
 		return None
 
 def makePostRequest(session, url, data):
-	if (session == {}):
-		return makePostRequest(session, url, data)
-
 	headers = {"Authorization": "Bearer {}".format(session['token']), 'Accept': 'application/json', 'Content-Type': 'application/json'}
 	response = requests.post(url, headers=headers, data=data)
 

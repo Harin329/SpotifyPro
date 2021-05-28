@@ -39,7 +39,7 @@
         - restart systemd
 
     - name: Make sure our server is running
-      systemd: name=spotifypro daemon_reexec=true state=started
+      systemd: name=spotifypro daemon_reload=true state=started
 
     - name: Copy Nginx site
       template: src=spotifypro.nginx.j2 dest=/etc/nginx/nginx.conf
@@ -55,4 +55,4 @@
       service: name=nginx state=restarted
 
     - name: restart systemd
-      service: name=spotifypro daemon_reexec=true state=restarted
+      service: name=spotifypro daemon_reload=true state=restarted scope=global
