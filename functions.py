@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 authorization = os.environ['AUTHORIZATION']
-redirect_uri = os.environ['REDIRECT_URI_DEV']
+redirect_uri = os.environ['REDIRECT_URI']
 
 token_url = 'https://accounts.spotify.com/api/token'
 headers = {'Authorization': authorization, 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
