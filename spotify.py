@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, make_response, redirect
 from dotenv import load_dotenv
-from functions import getToken, getUserInformation, skipSong, getTrackInfo
+from functions import getToken, getUserInformation, skipSong, getTrackInfo, addToPlaylist, removeFromCurrent
 import time
 import os
 
@@ -53,10 +53,9 @@ def callback():
 @app.route("/api/moveSong", methods = ['GET'])
 def moveSong():
     global session
-    year = getTrackInfo(session)
-    print(year)
-    # Put Song in Year Album
-    # Remove Song From Current
+    currentTrack = getTrackInfo(session)
+    addToPlaylist(session, currentTrack['year'], currentTrack['uri'])
+    removeFromCurrent(session, currentTrack['uri'])
     skipSong(session)
 
-    return "Song Moved!"
+    return "Song Moved Into Album " + str(year) + "!"

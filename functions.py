@@ -122,12 +122,11 @@ def getTrackInfo(session):
 		return None
 
 	name = payload['item']['name']
-	img = payload['item']['album']['images'][0]['url']
 	id = payload['item']['id']
+	year = getYear(session, id)
+	uri = payload['item']['uri']
 
-	print({'name': name, 'img': img})
-
-	return getYear(session, id)
+	return {'year': year, 'uri': uri}
 
 def getYear(session, trackID):
 	url = 'https://api.spotify.com/v1/tracks/' + trackID
@@ -137,3 +136,71 @@ def getYear(session, trackID):
 		return None
 
 	return payload
+
+def getYearPlaylist(session, year, limit=20):
+	url = 'https://api.spotify.com/v1/me/playlists'
+	offset = 0
+	playlist = None
+
+	total = 1
+	while total > offset:
+		params = {'limit': limit, 'offset': offset}
+		payload = makeGetRequest(session, url, params)
+
+		if payload == None:
+			return None
+		
+		for item in payload['items']:
+			if item['name'] == str(year):
+				playlist = item
+
+		total = payload['total']
+		offset += limit
+
+	return playlist
+
+def getCurrentPlaylist(session, year, limit=20):
+	url = 'https://api.spotify.com/v1/me/playlists'
+	offset = 0
+	playlist = None
+
+	total = 1
+	while total > offset:
+		params = {'limit': limit, 'offset': offset}
+		payload = makeGetRequest(session, url, params)
+
+		if payload == None:
+			return None
+		
+		for item in payload['items']:
+			if item['name'] == 'Current':
+				playlist = item
+
+		total = payload['total']
+		offset += limit
+
+	return playlist
+
+def addToPlaylist(session, year, uri):
+	playlist_id = getYearPlaylist(session, year)
+	url = 'https://api.spotify.com/v1/playlists/' + playlist_id + '/tracks'
+
+	uri_str = ""
+	uri_str += "\"" + uri + "\","
+
+	data = "{\"uris\": [" + uri_str[0:-1] + "]}"
+	makePostRequest(session, url, data)
+
+	return
+
+def removeFromCurrent(session, uri):
+	playlist_id = getCurrentPlaylist(session, year)
+	url = 'https://api.spotify.com/v1/playlists/' + playlist_id + '/tracks'
+
+	uri_str = ""
+	uri_str += "\"" + uri + "\","
+
+	data = "{\"uris\": [" + uri_str[0:-1] + "]}"
+	makeDeleteRequest(session, url, data)
+
+	return
