@@ -113,3 +113,27 @@ def skipSong(session):
 		return None
 
 	return payload
+
+def getTrackInfo(session):
+	url = 'https://api.spotify.com/v1/me/player/currently-playing'
+	payload = makeGetRequest(session, url)
+
+	if payload == None :
+		return None
+
+	name = payload['item']['name']
+	img = payload['item']['album']['images'][0]['url']
+	id = payload['item']['id']
+
+	print({'name': name, 'img': img})
+
+	return getYear(session, id)
+
+def getYear(session, trackID):
+	url = 'https://api.spotify.com/v1/tracks/' + trackID
+	payload = makeGetRequest(session, url)
+
+	if payload == None :
+		return None
+
+	return payload
