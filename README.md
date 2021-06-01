@@ -24,4 +24,4 @@ My spotify library was a mess. It included every song I knew, filling up a playl
 2. Create id_rsa or any other ssh key to allow secure connection to server
 3. Create .env file by copying .env.example and insert environment variables & secrets
 4. Edit all occurences of ```REDIRECT_URI_DEV``` and replace with ```REDIRECT_URI```
-5. Run ```ansible-playbook site.yaml```
+5. Run ```ansible-playbook -v site.yaml```
