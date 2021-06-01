@@ -8,7 +8,7 @@ load_dotenv()
 
 client_id = os.environ['CLIENT_ID']
 client_secret = os.environ['CLIENT_SECRET']
-redirect_uri = os.environ['REDIRECT_URI_DEV']
+redirect_uri = os.environ['REDIRECT_URI']
 scopes = os.environ['SCOPES']
 
 app = Flask(__name__)
