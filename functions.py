@@ -6,7 +6,7 @@ import os
 load_dotenv()
 
 authorization = os.environ['AUTHORIZATION']
-redirect_uri = os.environ['REDIRECT_URI']
+redirect_uri = os.environ['REDIRECT_URI_DEV']
 
 def getToken(code):
 	token_url = 'https://accounts.spotify.com/api/token'
@@ -122,9 +122,11 @@ def getTrackInfo(session):
 		return None
 
 	name = payload['item']['name']
-	id = payload['item']['id']
-	year = getYear(session, id)
+	trackID = payload['item']['id']
+	year = getYear(session, trackID)
 	uri = payload['item']['uri']
+
+	print(name)
 
 	return {'year': year, 'uri': uri}
 
@@ -135,7 +137,7 @@ def getYear(session, trackID):
 	if payload == None :
 		return None
 
-	return payload
+	return payload['album']['release_date'][0:4]
 
 def getYearPlaylist(session, year, limit=20):
 	url = 'https://api.spotify.com/v1/me/playlists'
@@ -157,9 +159,11 @@ def getYearPlaylist(session, year, limit=20):
 		total = payload['total']
 		offset += limit
 
+	print(playlist)
+
 	return playlist
 
-def getCurrentPlaylist(session, year, limit=20):
+def getCurrentPlaylist(session, limit=20):
 	url = 'https://api.spotify.com/v1/me/playlists'
 	offset = 0
 	playlist = None
@@ -183,6 +187,7 @@ def getCurrentPlaylist(session, year, limit=20):
 
 def addToPlaylist(session, year, uri):
 	playlist_id = getYearPlaylist(session, year)
+	playlist_id = playlist_id['id']
 	url = 'https://api.spotify.com/v1/playlists/' + playlist_id + '/tracks'
 
 	uri_str = ""
@@ -191,10 +196,11 @@ def addToPlaylist(session, year, uri):
 	data = "{\"uris\": [" + uri_str[0:-1] + "]}"
 	makePostRequest(session, url, data)
 
-	return
+	return "Success"
 
 def removeFromCurrent(session, uri):
-	playlist_id = getCurrentPlaylist(session, year)
+	playlist_id = getCurrentPlaylist(session)
+	playlist_id = playlist_id['id']
 	url = 'https://api.spotify.com/v1/playlists/' + playlist_id + '/tracks'
 
 	uri_str = ""
@@ -203,4 +209,4 @@ def removeFromCurrent(session, uri):
 	data = "{\"uris\": [" + uri_str[0:-1] + "]}"
 	makeDeleteRequest(session, url, data)
 
-	return
+	return "Success"

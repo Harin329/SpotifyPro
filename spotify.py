@@ -8,7 +8,7 @@ load_dotenv()
 
 client_id = os.environ['CLIENT_ID']
 client_secret = os.environ['CLIENT_SECRET']
-redirect_uri = os.environ['REDIRECT_URI']
+redirect_uri = os.environ['REDIRECT_URI_DEV']
 scopes = os.environ['SCOPES']
 
 app = Flask(__name__)
@@ -54,8 +54,9 @@ def callback():
 def moveSong():
     global session
     currentTrack = getTrackInfo(session)
+    print(currentTrack)
     addToPlaylist(session, currentTrack['year'], currentTrack['uri'])
     removeFromCurrent(session, currentTrack['uri'])
     skipSong(session)
 
-    return "Song Moved Into Album " + str(year) + "!"
+    return "Song Moved Into Album " + str(currentTrack['year']) + "!"
