@@ -128,6 +128,9 @@ def getTrackInfo(session):
 
 	print(name)
 
+	if (int(year) < 2010):
+		return {'year': 'G(old)', 'uri': uri}
+
 	return {'year': year, 'uri': uri}
 
 def getYear(session, trackID):
