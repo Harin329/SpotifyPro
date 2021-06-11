@@ -2,8 +2,6 @@
 
 .App {
   text-align: center;
-  align-items: center;
-  justify-content: center;
   background-color: #0A3E03;
   height: 100vh;
   width: 100vw;
@@ -18,6 +16,17 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.App-header {
+  min-height: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  background-color: #0A3E03;
+  color: white;
 }
 
 .App-sider {

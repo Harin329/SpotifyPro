@@ -1,20 +1,22 @@
-import React, { FC } from "react";
-import { Layout, Row, Col } from "antd";
+import { FC } from "react";
+import { Typography, Row, Button } from "antd";
 import "./index.css";
-const { Header, Content } = Layout;
+
+const { Title } = Typography;
+
+const authorizeSpotify = () => {
+  console.log("Authorizing Spotify");
+}
 
 const Home: FC = () => (
-  <Layout className="App">
-    <Header className="App-header">Spotify Pro</Header>
-    <Layout>
-      <Content className="App-sider">
-        <Row className="App-sider">
-          <Col className="App-sider" span={6}>col-12</Col>
-          <Col span={12}>col-12</Col>
-        </Row>
-      </Content>
-    </Layout>
-  </Layout>
+  <Row className="App">
+    <div style={{ flexDirection: "row" }}>
+      <Title style={{color: 'white'}}>Welcome to SoundTown!</Title>
+      <Button type="primary" shape="round" size="large" onClick={authorizeSpotify}>
+        Authorize with Spotify
+      </Button>
+    </div>
+  </Row>
 );
 
 export default Home;
