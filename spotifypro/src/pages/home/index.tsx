@@ -1,22 +1,56 @@
-import { FC } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Row, Button } from "antd";
 import "./index.css";
+import { getHashParams, removeHashParams } from "../../utils/hashUtils";
+import { selectIsLoggedIn, selectTokenExpiryDate, setAccessToken, setLoggedIn, setTokenExpiryDate } from "../../reducer/authReducer";
+import { getAuthorizeHref } from "../../oauthConfig";
 
-const { Title } = Typography;
+const hashParams = getHashParams();
+const access_token = hashParams.access_token;
+const expires_in = hashParams.expires_in;
+removeHashParams();
 
-const authorizeSpotify = () => {
-  console.log("Authorizing Spotify");
+export default function Home() {
+  const { Title } = Typography;
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const tokenExpiryDate = useSelector(selectTokenExpiryDate);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (access_token) {
+      dispatch(setLoggedIn(true));
+      dispatch(setAccessToken(access_token));
+      dispatch(setTokenExpiryDate(Number(expires_in)));
+      // dispatch(setUserProfileAsync(access_token));
+    }
+  })
+
+  const authorizeSpotify = () => {
+    window.open(getAuthorizeHref(), '_self')
+  };
+
+  const createRoom = () => {
+    console.log(tokenExpiryDate);
+  };
+
+  return (
+    <Row className="App">
+      <div style={{ flexDirection: "row" }}>
+        <Title style={{ color: "white" }}>Welcome to SoundTown!</Title>
+        {!isLoggedIn &&
+        <Button
+          type="primary"
+          shape="round"
+          size="large"
+          onClick={authorizeSpotify}
+        >
+          Authorize with Spotify
+        </Button>}
+        {isLoggedIn && <Button type="primary" shape="round" size="large" onClick={createRoom}>
+          Create a Room
+        </Button>}
+      </div>
+    </Row>
+  );
 }
-
-const Home: FC = () => (
-  <Row className="App">
-    <div style={{ flexDirection: "row" }}>
-      <Title style={{color: 'white'}}>Welcome to SoundTown!</Title>
-      <Button type="primary" shape="round" size="large" onClick={authorizeSpotify}>
-        Authorize with Spotify
-      </Button>
-    </div>
-  </Row>
-);
-
-export default Home;
