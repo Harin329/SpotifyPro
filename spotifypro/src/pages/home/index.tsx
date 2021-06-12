@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Typography, Row, Button } from "antd";
+import { useHistory } from "react-router-dom";
 import "./index.css";
 import { getHashParams, removeHashParams } from "../../utils/hashUtils";
 import { selectIsLoggedIn, selectTokenExpiryDate, setAccessToken, setLoggedIn, setTokenExpiryDate } from "../../reducer/authReducer";
@@ -16,6 +17,7 @@ export default function Home() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const tokenExpiryDate = useSelector(selectTokenExpiryDate);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (access_token) {
@@ -31,7 +33,7 @@ export default function Home() {
   };
 
   const createRoom = () => {
-    console.log(tokenExpiryDate);
+    history.push('/createRoom');
   };
 
   return (
