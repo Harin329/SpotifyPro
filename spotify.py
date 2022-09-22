@@ -60,3 +60,11 @@ def moveSong():
     skipSong(session)
 
     return "Song Moved Into Album " + str(currentTrack['year']) + "!"
+
+@app.route("/api/moveSongTest", methods = ['GET'])
+def moveSongTest():
+    global session
+    currentTrack = getTrackInfo(session)
+    print(currentTrack)
+
+    return "Song Would Move Into Album " + str(currentTrack['year']) + "!"
